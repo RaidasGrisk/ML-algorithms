@@ -7,7 +7,7 @@ def h(O, x):
     return 1 / (1 + np.exp(1) ** (-np.dot(x, O)))
 
 
-# Cost function
+# Cost (and derivative) function
 def J(O, x, y, l, der):
 
     m = len(x) # number of data points
@@ -29,7 +29,7 @@ def J(O, x, y, l, der):
 # x - arrays of other variables (independent variables)
 # O - weights (rows correspond to each column of x)
 
-### Data
+# Data
 DataPoints = 100
 Features = 5
 
@@ -51,7 +51,7 @@ for step in range(steps):
 
 pl.plot(train_history)
 
-### Data and hypothesis
+# plot y and hypothesis
 pl.plot(y, 'ro')
 pl.plot(h(O, x))
 
