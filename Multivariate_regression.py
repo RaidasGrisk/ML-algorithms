@@ -13,10 +13,10 @@ def J(O, x, y, l, der):
     m = len(x) # number of data points
     features = len(x.T) # number of features
 
-    if der == 0:
+    if der == 0: # return cost
         return 1 / (2 * m) * np.sum((h(O, x) - y) ** 2) + np.sum(l * O ** 2)
 
-    if der == 1:
+    if der == 1: # return derivatives
         O_der = np.empty(shape=(features, 1))  # empty array to store derivatives
         for i in range(0, len(O)):
            O_der[i] = (1 / m * np.sum((h(O, x) - y) * x[:,i].reshape(m, 1)))
