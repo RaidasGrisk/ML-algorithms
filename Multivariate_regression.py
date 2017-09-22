@@ -62,6 +62,6 @@ pl.plot(train_history)
 O = NormalEquationsMethod(x, y)
 
 # Plot data and hypothesis
-pl.plot(y[:,0], 'ro')
+pl.plot(y, 'ro')
 pl.plot(h(O, x))
 
