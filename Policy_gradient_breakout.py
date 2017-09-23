@@ -12,7 +12,7 @@ after which you've gotten reward in your past experiences are increased.
 
 For example, the player is in state 'A' (pixel values in this example)
 and he randomly picked action 3 from [1, 2, 3] set of actions.
-This time he got lucky and this action yielded him a reward of 1! Wohoo!
+He got lucky and this action yielded him a reward of 1! Wohoo!
 We've collected this data and now we'll train the network to increase the
 probability of action 3 whatever we are in a state similar or equal to 'A'.
 
