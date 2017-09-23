@@ -7,7 +7,7 @@ import pylab as pl
 Basic explanation of Policy Gradient:
 
 In policy gradient, neural net outputs a probability for each available action.
-The idea of this method is to train neural net so that probabilities of actions,
+The idea of this method is to train neural net so that probabilities of actions
 after which you've gotten reward in your past experiences are increased.
 
 For example, the player is in state 'A' (pixel values in this example)
