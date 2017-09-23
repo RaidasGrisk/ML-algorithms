@@ -22,7 +22,7 @@ First you play the game :
 1. Pre-process state (observation) and be ready to feed it to neural net.
 2. Input the observation into neural net and sample an action from its output.
    By sample, I mean sample an action from action set [1, 2, 3] when the
-   probabilities of actions are [0.2, 0.3, 0.5]. Simple stochastic process.
+   probabilities of actions are e.g. [0.2, 0.3, 0.5]. Simple stochastic process.
 3. Make that action and observe the results: state, reward, ...
 4. Create 'correct' output value (ylabel) of neural net for this state.
    This step is a little tricky to understand at first. The 'correct' output is
