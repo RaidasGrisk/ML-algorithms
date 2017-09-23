@@ -8,7 +8,7 @@ Just a few examples of simple algorithms I've tried with while learning ML.
 
 3. [**Simple neural network**](/Neural_network.py). Simple (yet terribly coded) neural network implemented with numpy only. This was my first take at trying to understand neural nets. No other functionalities (e.g dropout), except for regularization and variable hidden layers and neurons. At the time I wrote this I had rather shitty programming skills, so reading and trying to understand this code it quite agonizing (be warned).
 
-4. [**Policy gradient**](/Policy_gradient_breakout). First take at reinforcement learning. Basic policy gradient implementation using tensorflow and Breakout from openAI's gym. I tried to keep it as simple as possible with only minor exceptions. Hopefully, this is easy to read and understand.
+4. [**Policy gradient**](/Policy_gradient_breakout.py). First take at reinforcement learning. Basic policy gradient implementation using tensorflow and Breakout from openAI's gym. I tried to keep it as simple as possible with only minor exceptions. Hopefully, this is easy to read and understand.
 
 5. **Deep Q Learning**
 
