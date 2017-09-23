@@ -1,6 +1,3 @@
-# These are the guys whose code I used to understand Policy Gradient from scratch:
-# https://gist.github.com/karpathy/a4166c7fe253700972fcbc77e4ea32c5
-# https://gist.github.com/greydanus/5036f784eec2036252e1990da21eda18
 import numpy as np
 import gym
 import tensorflow as tf
@@ -21,27 +18,36 @@ probability of action 3 whatever we are in a state similar or equal to 'A'.
 
 That's the basic idea. Here's a short overview of the main loop.
 
-First you play the game (what's done after each frame):
+First you play the game :
 1. Pre-process state (observation) and be ready to feed it to neural net.
 2. Input the observation into neural net and sample an action from its output.
+   By sample, I mean sample an action from action set [1, 2, 3] when the
+   probabilities of actions are [0.2, 0.3, 0.5]. Simple stochastic process.
 3. Make that action and observe the results: state, reward, ...
 4. Create 'correct' output value (ylabel) of neural net for this state.
    This step is a little tricky to understand at first. The 'correct' output is
    always the one you've sampled from neural net. E.g if action 3 was correct,
    than correct output is [0, 0, 1] where third column corresponds to action 3.
 4. Save the data: state, the 'correct' output and the reward you've got.
-5. Do this for a few (or one) games to collect enough data for training.
+5. That is what you do after each frame. Now do this for a while,
+   a few (or one, however you like) games to collect enough data for training.
 
 After you've collected enough data, do one iteration of training:
 1. Construct gradient loss vector. This step is the core of gradient decent method.
    It is simply a vector of discounted reward vector values collected during the game.
    You can make additional transformations, e.g. normalize or shift this vector to improve results.
 2. Adjust the errors of net's final layer. Before backprop, you multiply the errors of
-   your network final layer with this vector of discounted reward to increase errors
-   before actions that led to reward.
-3. As a result of this, after performing optimization using backprop, the probability of
-   a sequence of actions which led to reward (in a given state) will increase.
+   your network final layer with this vector of discounted reward. In turn, this will
+   increase the errors before sequences of actions that led to reward.
+3. Do optimization. After performing optimization using backprop and adjusted errors, the
+   probability of a sequence of actions which led to reward (in a given state) will increase.
 4. Clear all the data that you've just trained with and play the game again to collect new data.
+
+That's it.
+
+This code is highly based on the work of these guys (it helped me to understand Policy Gradient big time):
+https://gist.github.com/karpathy/a4166c7fe253700972fcbc77e4ea32c5
+https://gist.github.com/greydanus/5036f784eec2036252e1990da21eda18
 
 """
 
