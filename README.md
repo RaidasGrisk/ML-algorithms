@@ -6,7 +6,7 @@ Just a few examples of simple algorithms I've tried with while learning ML.
 
 2. [**Logistic regression**](/Logistic_regression.py). The same as before. Simple logistic regression. 
 
-3. **Simple neural network**. Simple (yet awfully coded) neural network implemented with numpy only. This was done in order to better understand basic neural nets. No other functionalities (e.g dropout), except for lambda in cost function and variable hidden layers and neurons. At the time I wrote this I had rather shitty programming skills, so reading and trying to understand this code it quite agonizing (be warned).
+3. **Simple neural network**. Simple (yet terribly coded) neural network implemented with numpy only. This was done in order to better understand basic neural nets. No other functionalities (e.g dropout), except for lambda in cost function and variable hidden layers and neurons. At the time I wrote this I had rather shitty programming skills, so reading and trying to understand this code it quite agonizing (be warned).
 
 4. **Policy gradient**. First take at reinforcement learning. Basic policy gradient implementation using tensorflow. I tried to keep it as simple as possible with only minor exception. Hopefully, this is easy to read and understand.
 
