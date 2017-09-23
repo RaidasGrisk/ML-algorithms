@@ -10,6 +10,6 @@ Just a few examples of algorithms I've tried with while learning ML.
 
 4. [**Policy gradient**](/Policy_gradient_breakout.py). First take at reinforcement learning. Basic policy gradient implementation using tensorflow and Breakout from openAI's gym. I tried to keep it as simple as possible with only minor exceptions. Hopefully, this is easy to read and understand.
 
-5. [**Deep Q Learning**](/DQN_Breakout.py). Second take at reinforcement learning. Basic DQN implementation using tensorflow and Breakout from openAI's gym.
+5. [**Deep Q Learning (this one is not finished, still working on it)**](/DQN_Breakout.py). Second take at reinforcement learning. Basic DQN implementation using tensorflow and Breakout from openAI's gym.
 
 1, 2 and 3 alogorithms are based on Andrew's NG machine learning course on Coursera (https://www.coursera.org/learn/machine-learning).
