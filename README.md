@@ -12,4 +12,4 @@ Just a few examples of simple algorithms I've tried with while learning ML.
 
 5. **Deep Q Learning**
 
-1, 2 and 3 alogorithms are made based on Andrew's NG machine learning course on Coursera (https://www.coursera.org/learn/machine-learning).
+1, 2 and 3 alogorithms are based on Andrew's NG machine learning course on Coursera (https://www.coursera.org/learn/machine-learning).
