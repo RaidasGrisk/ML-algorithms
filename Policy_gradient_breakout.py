@@ -201,5 +201,5 @@ while True:
 
             # save stuff
             pl.plot(running_reward_hist)
-            pl.savefig('Running_reward_hist' + session_name + '.png')
-            np.save('Breakout_v1_trained_weights' + session_name, sess.run(O))
+            pl.savefig('Running_reward_hist' + session_name + '.png') # look at the progress by opening this file
+            # np.save('Breakout_v1_trained_weights' + session_name, sess.run(O))
