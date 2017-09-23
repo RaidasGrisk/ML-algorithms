@@ -1,6 +1,6 @@
 import numpy as np
 import pylab as pl
-
+from tensorflow.examples.tutorials.mnist import input_data # tf is used just for MNIST dataset
 
 # Hypothesis
 def h(O, x):
@@ -32,14 +32,13 @@ def accuracy(y, x, O):
 # x - arrays of other variables (independent variables)
 # O - weights (rows correspond to each column of x)
 
-# Data
-x = np.load('Data/x_data.npy').astype(float)
-y = np.load('Data/y_data.npy')[:,0].reshape((len(x),1)).astype(float)
-x_train = x[0:40000]
-x_test = x[40000:50000]
-y_train = y[0:40000]
-y_test = y[40000:50000]
-O = np.random.uniform(-0.01, 0.01, size=(len(x.T), 1))
+# Data (MNIST dataset from tensorflow)
+mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
+x_train = mnist.train.images
+y_train = mnist.train.labels[:,0].reshape((len(x_train), 1)) # picking 1's label only
+x_test = mnist.test.images
+y_test = mnist.test.labels[:,0].reshape((len(x_test), 1))
+O = np.random.uniform(-0.01, 0.01, size=(len(x_train.T), 1))
 
 # Gradient decent
 steps = 50
