@@ -1,6 +1,6 @@
 import numpy as np
-import gym
 import tensorflow as tf
+import gym
 import pylab as pl
 
 """"
@@ -29,8 +29,9 @@ First you play the game :
    always the one you've sampled from neural net. E.g if action 3 was correct,
    than correct output is [0, 0, 1] where third column corresponds to action 3.
 4. Save the data: state, the 'correct' output and the reward you've got.
-5. That is what you do after each frame. Now do this for a while,
-   a few (or one, however you like) games to collect enough data for training.
+
+This is what you do after each frame. Now do this for a while, a few 
+(or one, however you like) games to collect enough data for training.
 
 After you've collected enough data, do one iteration of training:
 1. Construct gradient loss vector. This step is the core of gradient decent method.
@@ -39,8 +40,8 @@ After you've collected enough data, do one iteration of training:
 2. Adjust the errors of net's final layer. Before backprop, you multiply the errors of
    your network final layer with this vector of discounted reward. In turn, this will
    increase the errors before sequences of actions that led to reward.
-3. Do optimization. After performing optimization using backprop and adjusted errors, the
-   probability of a sequence of actions which led to reward (in a given state) will increase.
+3. Do optimization. After adjusting errors and performing optimization using backprop, the
+   probability of a sequence of actions which led to reward will increase.
 4. Clear all the data that you've just trained with and play the game again to collect new data.
 
 That's it.
