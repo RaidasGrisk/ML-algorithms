@@ -22,8 +22,8 @@ Train neural net:
 
 class DQNagent():
     def __init__(self, s_size, a_size, m_size, gamma, eps, eps_d, lr):
-        self.memory = []        # object:    memory
-        self.history = []       # object:    training history for plotting
+        self.memory = []        # list:    memory
+        self.history = []       # list:    training history for plotting
         self.m_size = m_size    # parameter: memory size
         self.s_size = s_size    # parameter: state size
         self.a_size = a_size    # parameter: action size
