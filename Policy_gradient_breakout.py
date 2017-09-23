@@ -36,9 +36,9 @@ This is what you do after each frame. Now do this for a while, a few
 After you've collected enough data, do one iteration of training:
 1. Construct gradient loss vector. This step is the core of gradient decent method.
    It is simply a vector of discounted reward vector values collected during the game.
-   You can make additional transformations, e.g. normalize or shift this vector to improve results.
+   You can make additional transformations, e.g. normalize or/and shift this vector to improve results.
 2. Adjust the errors of net's final layer. Before backprop, you multiply the errors of
-   your network final layer with this vector of discounted reward. In turn, this will
+   your network's final layer with this vector of discounted reward. In turn, this will
    increase the errors before sequences of actions that led to reward.
 3. Do optimization. After adjusting errors and performing optimization using backprop, the
    probability of a sequence of actions which led to reward will increase.
@@ -76,10 +76,10 @@ def discount_and_normalize(input, discount_const, normalized, frame_shift):
     data_disc = np.zeros_like(input).astype(float)
     data_disc[len(input) - 1] = input[len(input) - 1] # no discount for last reward
     for i in reversed(range(0, len(data_disc) - 1)):
-        if input[i] != 0:
-            data_disc[i] = input[i]  # keep original if non zero
-        else:
-            data_disc[i] = data_disc[i + 1] * discount_const  # this value = the value before * discount
+        if input[i] != 0: # keep original if non zero
+            data_disc[i] = input[i]  
+        else: # this value = the value before * discount
+            data_disc[i] = data_disc[i + 1] * discount_const  
 
     # Normalizing
     if normalized:
@@ -135,14 +135,14 @@ cost = tf.nn.l2_loss(y - yprob)
 # initialize optimizer
 # https://www.tensorflow.org/api_docs/python/tf/train/AdamOptimizer
 optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
-gradients = optimizer.compute_gradients(loss=cost, var_list=tf.trainable_variables(), grad_loss=gradient_loss) # gradients computed with altered last layer errors (using rewards)
+gradients = optimizer.compute_gradients(loss=cost, var_list=tf.trainable_variables(), grad_loss=gradient_loss) # gradients computed with adjusted last layer's errors (using rewards)
 train_step = optimizer.apply_gradients(gradients)
 
 # initialize gamespace
 env = gym.make("Breakout-v0")
 observation = env.reset()
 running_observation = prep_observation(observation, zeros_and_ones=True)
-# plot_pixels(prep_observation(observation)) # run this to see how single frame looks like
+# plot_pixels(prep_observation(observation)) # run this to see how single frame fed to nn looks like
 
 # initialize tf session
 init = tf.global_variables_initializer()
@@ -183,7 +183,7 @@ while True:
         observation = env.reset() ; running_observation = prep_observation(observation, zeros_and_ones=True)
         games_played += 1
 
-        if games_played % training_batch_size == 0: # perform 1 optimization step after playing x games (signle batch)
+        if games_played % training_batch_size == 0: # perform 1 optimization step after playing x games (single batch)
 
             # optimization
             gradient_loss_batch = discount_and_normalize(reward_batch, discount_const=reward_discount, normalized=True, frame_shift=reward_shift)
