@@ -7,16 +7,16 @@ import pylab as pl
 """
 Deep Q Learning (and additional) steps
 
-Collect data for training:
-1. Estimate Q values based on the observed state and chose an action
+Main loop:
+1. Estimate Q values based on the observed state and sample an action
 2. Perform an action and observe next state
 4. Save state, action, reward, next state, done (append to existing memory)
-5. Randomize a mini-batch from the experiences gathered (memory)
-6. Train using the randomized mini-batch                           -
+5. Randomize a mini-batch from collected experiences (memory)
+6. Use randomized mini-batch to estimate target Q values and train
+   Q_target = neural net output using mini-batch of states as input and then
+   Q_target[action] = reward (from state) + gamma * reward (from next state)
 
-Train neural net:
-1. Estimate target Q values: Q_target[action] = reward (from state) + gamma * reward (from next state)
-2. Train using target Q values as correct output of NN
+That's it.
 """
 
 
@@ -57,32 +57,37 @@ class DQNagent():
         state, action, reward, next_state, done = training_batch[:,0], training_batch[:,1], training_batch[:,2], training_batch[:,3], training_batch[:,4]
 
         # Calculate target Q values
-        Q_target = self.sess.run(self.Q_values, feed_dict={self.x: np.stack(state)}) # Estimate predictions of Q_values from state
-        Q_target_next = np.amax(self.sess.run(self.Q_values, feed_dict={self.x: np.stack(next_state)}), axis=1) # Estimate predictions of Q_values from next_state
-        Q_target_not_done = 1 - done  # Swapping 0->1 and 1->0. Originally, if done = True, I need True if not Done.
-        Q_target_one = reward + discount * Q_target_next * Q_target_not_done # Estimate target values of Q_value
+        Q_target = self.sess.run(self.Q_values, feed_dict={self.x: np.stack(state)}) # Q values from state
+        Q_target_next = np.amax(self.sess.run(self.Q_values, feed_dict={self.x: np.stack(next_state)}), axis=1) # Max Q values from next_state
+        Game_not_done = 1 - done  # Swapping 0->1 and 1->0. Originally if done = True, but I need True if not Done.
+        Q_target_one = reward + discount * Q_target_next * Game_not_done # Estimate target Q values
         for i in range(len(Q_target_one)): # Assign target Q values to appropriate action
             Q_target[i, :action[i]] = Q_target_one[i]
 
         # Train
         _ = self.sess.run(self.optimization, feed_dict={self.x: np.stack(state), self.y: np.stack(Q_target)})
 
-        if return_Q_targets: return Q_target
+        if return_Q_targets: return Q_target # return Q_targets if curious to see what it looks like
 
     def tf_sess(self):
 
+        # Create tf placeholders and weights
         x = tf.placeholder(shape=[None, self.s_size], dtype=tf.float32)
         y = tf.placeholder(shape=[None, self.a_size], dtype=tf.float32)
         O = {'w1': tf.Variable(tf.truncated_normal(shape=[self.s_size, 64], mean=0, stddev=1/np.sqrt(self.s_size), dtype=tf.float32)),
              'w2': tf.Variable(tf.truncated_normal(shape=[64, 32], mean=0, stddev=1/np.sqrt(64), dtype=tf.float32)),
              'w3': tf.Variable(tf.truncated_normal(shape=[32, self.a_size], mean=0, stddev=1/np.sqrt(32), dtype=tf.float32))}
 
+        # Estimate net's output
         l1 = tf.nn.relu(tf.matmul(x, O['w1']))
         l2 = tf.nn.relu(tf.matmul(l1, O['w2']))
         Q_values = tf.matmul(l2, O['w3'])
 
+        # Estimate cost and create optimizer
         cost = tf.losses.huber_loss(y, Q_values) # tf.reduce_mean(tf.square(y - Q_values))
         optimization = tf.train.AdamOptimizer(learning_rate=self.lr).minimize(cost)
+
+        # Initiate tf session
         init = tf.global_variables_initializer()
         sess = tf.Session()
         sess.run(init)
@@ -133,16 +138,16 @@ while True:
         training_batch = agent.memory_batch(mini_batch_size)
         agent.train(training_batch, discount, return_Q_targets=False)
 
-    if done:
+    if done: # Stuff to do if game is finished
 
         # Reset, update and etc.
-        env.reset()
+        state = env.reset() / 255
         if memory_is_full: epsilon = epsilon_max - epsilon_d * games_played if epsilon > epsilon_min else epsilon_min
         running_score = running_score * 0.95 + 0.05 * score
         agent.history.append(running_score)
 
         # Print and save
-        print('Game: %d, R: %.2f, Running R %.2f, Eps: %.2f, Memory: %d' % (games_played, score, running_score, epsilon, len(agent.memory)))
+        print('Game: %d, R: %.2f, Running R: %.2f, Eps: %.2f, Memory: %d' % (games_played, score, running_score, epsilon, len(agent.memory)))
         pl.plot(agent.history)
         pl.savefig('DGQ Breakout test.png')
 
@@ -150,5 +155,3 @@ while True:
         frame = 0
         score = 0
         if memory_is_full: games_played += 1
-
-
