@@ -30,8 +30,8 @@ First you play the game :
    than correct output is [0, 0, 1] where third column corresponds to action 3.
 4. Save the data: state, the 'correct' output and the reward you've got.
 
-This is what you do after each frame. Now do this for a while, a few 
-(or one, however you like) games to collect enough data for training.
+This is what you do after each frame. Now do this for a while (a few 
+or one game, however you like) to collect enough data for one training iteration.
 
 After you've collected enough data, do one iteration of training:
 1. Construct gradient loss vector. This step is the core of gradient decent method.
@@ -52,7 +52,7 @@ https://gist.github.com/greydanus/5036f784eec2036252e1990da21eda18
 """
 
 # functions
-def prep_observation(observation, zeros_and_ones):
+def prep_observation(observation, zeros_and_ones=False):
     obs_2d = observation[:, :, 0] # from RGB to R
     obs_2d_cut = obs_2d[93:193, 8:152] # Specific to Breakout: whole space 33:193, 8:152 ; not including bricks 93:193, 8:152
     obs_2d_cut_ds = obs_2d_cut[::2, ::2] # downsample by 2: a b c d e f d -> to -> a c e d
@@ -103,7 +103,7 @@ learning_rate = 0.002
 reward_shift = 10 # to account for lagging reward (frames)
 reward_discount = 0.99
 obs_discount = 0.8 # discount last frame to account for velocity of objects (used in running_frame)
-training_batch_size = 5 # number of games to perform one optimization step
+training_batch_size = 5 # number of games to play before performing one optimization step
 neurons = 32 # single hidden layer with that many neurons
 input_size = 3600 # hand written number indicating number of pixels fed into nn
 actions = [0, 1, 2] # true actions are 1, 2, 3 this is used for indexing
