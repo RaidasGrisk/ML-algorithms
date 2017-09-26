@@ -107,7 +107,7 @@ train_freq = 1
 # Initialize game environment, agent and else
 tf.reset_default_graph()
 env = gym.make('Breakout-ram-v0')
-agent = DQNagent(s_size=len(env.reset()), a_size=len(env.unwrapped.get_action_meanings())-1, m_size=memory_size, lr=learning_rate)
+agent = DQNagent(s_size=len(env.reset()), a_size=len(env.unwrapped.get_action_meanings()), m_size=memory_size, lr=learning_rate)
 pl.ioff() # to turn off plotting in IDE (save it to a file instead) pl.ion() to reverse
 
 # Reset variables
@@ -124,7 +124,7 @@ while True:
 
     # Chose and perform an action, save experience
     action = np.argmax(agent.act(state, epsilon))
-    next_state, reward, done, _ = env.step(action+1)
+    next_state, reward, done, _ = env.step(action)
     agent.remember(state, action, reward, next_state / 255, done)
 
     # Update other variables
