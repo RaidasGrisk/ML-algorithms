@@ -1,4 +1,3 @@
-# https://keon.io/deep-q-learning/
 import gym
 import tensorflow as tf
 import numpy as np
@@ -16,7 +15,8 @@ Main loop:
    Q_target = neural net output using mini-batch of states as input and then
    Q_target[action] = reward (from state) + gamma * reward (from next state)
 
-That's it.
+Helpful sources:
+https://keon.io/deep-q-learning/
 """
 
 
@@ -74,9 +74,9 @@ class DQNagent():
         # Create tf placeholders and weights
         x = tf.placeholder(shape=[None, self.s_size], dtype=tf.float32)
         y = tf.placeholder(shape=[None, self.a_size], dtype=tf.float32)
-        O = {'w1': tf.Variable(tf.truncated_normal(shape=[self.s_size, 64], mean=0, stddev=1/np.sqrt(self.s_size), dtype=tf.float32)),
-             'w2': tf.Variable(tf.truncated_normal(shape=[64, 32], mean=0, stddev=1/np.sqrt(64), dtype=tf.float32)),
-             'w3': tf.Variable(tf.truncated_normal(shape=[32, self.a_size], mean=0, stddev=1/np.sqrt(32), dtype=tf.float32))}
+        O = {'w1': tf.Variable(tf.truncated_normal(shape=[self.s_size, 128], mean=0, stddev=0.1, dtype=tf.float32)),
+             'w2': tf.Variable(tf.truncated_normal(shape=[128, 32], mean=0.1, stddev=0, dtype=tf.float32)),
+             'w3': tf.Variable(tf.truncated_normal(shape=[32, self.a_size], mean=0, stddev=0.1, dtype=tf.float32))}
 
         # Estimate net's output
         l1 = tf.nn.relu(tf.matmul(x, O['w1']))
@@ -84,7 +84,7 @@ class DQNagent():
         Q_values = tf.matmul(l2, O['w3'])
 
         # Estimate cost and create optimizer
-        cost = tf.losses.huber_loss(y, Q_values) # tf.reduce_mean(tf.square(y - Q_values))
+        cost = tf.losses.huber_loss(y, Q_values) # https://www.tensorflow.org/api_docs/python/tf/losses/huber_loss
         optimization = tf.train.AdamOptimizer(learning_rate=self.lr).minimize(cost)
 
         # Initiate tf session
@@ -95,19 +95,19 @@ class DQNagent():
         return Q_values, optimization, sess, cost, y, x
 
 # Hyperparameters
-learning_rate = 0.0001
+learning_rate = 0.00025
 discount = 0.999
 epsilon_max = 1
 epsilon_min = 0.1 # minimum value
 epsilon_d = 0.0003 # 1 - epsilon_d * games_played
-memory_size = 16192 * 2
-mini_batch_size = 512
-train_freq = 4
+memory_size = 16192
+mini_batch_size = 128
+train_freq = 1
 
 # Initialize game environment, agent and else
 tf.reset_default_graph()
 env = gym.make('Breakout-ram-v0')
-agent = DQNagent(s_size=len(env.reset()), a_size=len(env.unwrapped.get_action_meanings()), m_size=memory_size, lr=learning_rate)
+agent = DQNagent(s_size=len(env.reset()), a_size=len(env.unwrapped.get_action_meanings())-1, m_size=memory_size, lr=learning_rate)
 pl.ioff() # to turn off plotting in IDE (save it to a file instead) pl.ion() to reverse
 
 # Reset variables
@@ -124,7 +124,7 @@ while True:
 
     # Chose and perform an action, save experience
     action = np.argmax(agent.act(state, epsilon))
-    next_state, reward, done, _ = env.step(action)
+    next_state, reward, done, _ = env.step(action+1)
     agent.remember(state, action, reward, next_state / 255, done)
 
     # Update other variables
@@ -136,14 +136,14 @@ while True:
     # Sample training batch and train
     if memory_is_full and frame % train_freq == 0:
         training_batch = agent.memory_batch(mini_batch_size)
-        agent.train(training_batch, discount, return_Q_targets=False)
+        _ = agent.train(training_batch, discount, return_Q_targets=True)
 
     if done: # Stuff to do if game is finished
 
         # Reset, update and etc.
         state = env.reset() / 255
         if memory_is_full: epsilon = epsilon_max - epsilon_d * games_played if epsilon > epsilon_min else epsilon_min
-        running_score = running_score * 0.95 + 0.05 * score
+        running_score = running_score * 0.99 + 0.01 * score
         agent.history.append(running_score)
 
         # Print and save
