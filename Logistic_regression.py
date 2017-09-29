@@ -2,6 +2,11 @@ import numpy as np
 import pylab as pl
 from tensorflow.examples.tutorials.mnist import input_data # tf is used just for MNIST dataset
 
+"""
+Implementation is based on Andrew's NG course at https://www.coursera.org/learn/machine-learning
+"""
+
+
 # Hypothesis
 def h(O, x):
     return 1 / (1 + np.exp(1) ** (-np.dot(x, O)))
