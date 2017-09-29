@@ -9,9 +9,9 @@ Few examples of algorithms I've tried with while learning ML.
 
 # Things implemented simply
 
-The idea is to make everything simple and readable. Take a concept and implement it from scratch using simple math (numpy in this case). If you manage to do that, hopefully, that will help you to understand a thing or two about it.
+The idea is to make everything simple and readable. Take a concept and implement it from scratch (numpy in this case). If you manage to do that, hopefully, that will help you to understand a thing or two about it.
 
-1. [**Multivariate regression**](/Multivariate_regression.py). Basic and simple implementation of multivariate regression. Optimized using gradient decent with regularization.
+1. [**Multivariate regression**](/Multivariate_regression.py). Simple implementation of multivariate regression. Optimized using gradient decent with regularization.
 
 2. [**Logistic regression**](/Logistic_regression.py). The same as before. Simple logistic regression. 
 
