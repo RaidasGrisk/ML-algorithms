@@ -1,6 +1,10 @@
 import numpy as np
 import pylab as pl
 
+"""
+Implementation is based on Andrew's NG course at https://www.coursera.org/learn/machine-learning
+"""
+
 
 # Hypothesis
 def h(O, x):
