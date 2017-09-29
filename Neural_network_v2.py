@@ -44,7 +44,7 @@ def activation_derivative(input):
 
 
 def softmax(input):
-    return np.exp(input) / np.sum(np.exp(input), axis=1, keepdims=True)
+    return np.exp(input) / np.sum(np.exp(input), axis=1, keepdims=True) # this activation is applied to final layer
 
 
 def dropout(input, keep_prob):
