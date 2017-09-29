@@ -11,8 +11,8 @@ Few examples of algorithms I've tried with while learning ML.
 
 The idea is to make everything simple and readable. Take a concept and implement it from scratch (numpy in this case). If you manage to do that, hopefully, that will help you to understand a thing or two about it.
 
-1. [**Multivariate regression**](/Multivariate_regression.py). Simple implementation of multivariate regression. Optimized using gradient decent with regularization.
+1. [**Multivariate regression**](/Multivariate_regression.py). Simple implementation of multivariate regression. Optimized using gradient decent with regularization (lambda).
 
 2. [**Logistic regression**](/Logistic_regression.py). The same as before. Simple logistic regression. 
 
-3. [**Simple neural network**](/Neural_network_v2.py). Simple neural net. Optimized using dropout and Adam algorithm.
+3. [**Simple neural network**](/Neural_network_v2.py). Simple neural net (multilayer perceptron). Optimized using Adam algorithm, regularized using dropout.
