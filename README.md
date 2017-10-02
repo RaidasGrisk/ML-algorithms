@@ -1,15 +1,15 @@
 # ML-algorithms in practice
 
-Few examples of algorithms I've tried with while learning ML.
+Few examples of algorithms I've tried with while learning ML. Hopefully it's easy to read and understand.
 
 1. [**Policy gradient**](/Policy_gradient_breakout.py). First take at reinforcement learning. Basic policy gradient implementation using tensorflow and Breakout from openAI's gym. I tried to keep it as simple as possible with only minor exceptions. Hopefully, this is easy to read and understand.
 
-2. [**Deep Q Network (this one is not finished, still working on it)**](/DQN_Breakout.py). Second take at reinforcement learning. Basic DQN implementation using tensorflow and Breakout from openAI's gym.
+2. [**Deep Q Network**](/DQN_Breakout.py). Second take at reinforcement learning. Basic DQN implementation using tensorflow and Breakout  from openAI's gym.
 
 
 # Things implemented simply
 
-The idea is to make everything simple and readable. Take a concept and implement it from scratch (numpy in this case). If you manage to do that, hopefully, that will help you to understand a thing or two about it.
+The idea is to make everything simple and readable. Take a concept and implement it from scratch (numpy in this case). If you manage to do that, hopefully, that will help you to understand a thing or two about the concept.
 
 1. [**Multivariate regression**](/Multivariate_regression.py). Simple implementation of multivariate regression. Optimized using gradient decent with regularization (lambda).
 
