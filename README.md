@@ -1,6 +1,6 @@
 # ML-algorithms in practice
 
-Few examples of algorithms I've tried with while learning ML. Hopefully it's easy to read and understand.
+Few examples of algorithms I've tried while learning ML. Hopefully it's easy to read and understand.
 
 1. [**Policy gradient**](/Policy_gradient_breakout.py). First take at reinforcement learning. Basic policy gradient implementation using tensorflow and Breakout from openAI's gym. I tried to keep it as simple as possible with only minor exceptions. Hopefully, this is easy to read and understand.
 
