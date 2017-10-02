@@ -123,8 +123,6 @@ running_score = 0
 games_played = 0
 memory_is_full = False
 
-q_values_history = []
-
 # Main loop
 while True:
 
@@ -143,8 +141,6 @@ while True:
     if memory_is_full and frame % train_freq == 0:
         training_batch = agent.memory_batch(mini_batch_size)
         _ = agent.train(training_batch, discount, return_Q_targets=True)
-
-        q_values_history.append(np.average(_, axis=0))
 
     if done: # Stuff to do if game is finished
 
