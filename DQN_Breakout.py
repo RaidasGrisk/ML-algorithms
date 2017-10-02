@@ -37,7 +37,7 @@ class DQNagent():
     def act(self, state, epsilon):
         if np.random.uniform(0,1,1) < epsilon:
             action = np.zeros(self.a_size)
-            action[np.random.randint(0,self.a_size,1)] = 1
+            action[np.random.randint(0, self.a_size,1)] = 1
         else:
             action = self.sess.run(self.Q_values, feed_dict={self.x: [state]})
         return action
@@ -62,7 +62,7 @@ class DQNagent():
         Game_not_done = 1 - done  # Swapping 0->1 and 1->0. Originally if done = True, but I need True if not Done.
         Q_target_one = reward + discount * Q_target_next * Game_not_done # Estimate target Q values
         for i in range(len(Q_target_one)): # Assign target Q values to appropriate action
-            Q_target[i, :action[i]] = Q_target_one[i]
+            Q_target[i, action[i]] = Q_target_one[i]
 
         # Train
         _ = self.sess.run(self.optimization, feed_dict={self.x: np.stack(state), self.y: np.stack(Q_target)})
@@ -74,13 +74,17 @@ class DQNagent():
         # Create tf placeholders and weights
         x = tf.placeholder(shape=[None, self.s_size], dtype=tf.float32)
         y = tf.placeholder(shape=[None, self.a_size], dtype=tf.float32)
+        
         O = {'w1': tf.Variable(tf.truncated_normal(shape=[self.s_size, 128], mean=0, stddev=0.1, dtype=tf.float32)),
              'w2': tf.Variable(tf.truncated_normal(shape=[128, 32], mean=0.1, stddev=0, dtype=tf.float32)),
              'w3': tf.Variable(tf.truncated_normal(shape=[32, self.a_size], mean=0, stddev=0.1, dtype=tf.float32))}
 
+        B = {'b1': tf.Variable(tf.truncated_normal(shape=[1, 128], mean=0, stddev=0.1, dtype=tf.float32)),
+             'b2': tf.Variable(tf.truncated_normal(shape=[1, 32], mean=0, stddev=0.1, dtype=tf.float32))}
+
         # Estimate net's output
-        l1 = tf.nn.relu(tf.matmul(x, O['w1']))
-        l2 = tf.nn.relu(tf.matmul(l1, O['w2']))
+        l1 = tf.nn.relu(tf.matmul(x, O['w1']) + B['b1'])
+        l2 = tf.nn.relu(tf.matmul(l1, O['w2']) + B['b2'])
         Q_values = tf.matmul(l2, O['w3'])
 
         # Estimate cost and create optimizer
@@ -100,9 +104,9 @@ discount = 0.999
 epsilon_max = 1
 epsilon_min = 0.1 # minimum value
 epsilon_d = 0.0003 # 1 - epsilon_d * games_played
-memory_size = 16192
-mini_batch_size = 128
-train_freq = 1
+memory_size = 16192 * 2
+mini_batch_size = 512
+train_freq = 2
 
 # Initialize game environment, agent and else
 tf.reset_default_graph()
@@ -118,6 +122,8 @@ score = 0
 running_score = 0
 games_played = 0
 memory_is_full = False
+
+q_values_history = []
 
 # Main loop
 while True:
@@ -138,11 +144,12 @@ while True:
         training_batch = agent.memory_batch(mini_batch_size)
         _ = agent.train(training_batch, discount, return_Q_targets=True)
 
+        q_values_history.append(np.average(_, axis=0))
+
     if done: # Stuff to do if game is finished
 
         # Reset, update and etc.
         state = env.reset() / 255
-        if memory_is_full: epsilon = epsilon_max - epsilon_d * games_played if epsilon > epsilon_min else epsilon_min
         running_score = running_score * 0.99 + 0.01 * score
         agent.history.append(running_score)
 
@@ -152,6 +159,7 @@ while True:
         pl.savefig('DGQ Breakout test.png')
 
         # Update other variables
+        if memory_is_full: epsilon = epsilon_max - epsilon_d * games_played if epsilon > epsilon_min else epsilon_min
+        if memory_is_full: games_played += 1
         frame = 0
         score = 0
-        if memory_is_full: games_played += 1
