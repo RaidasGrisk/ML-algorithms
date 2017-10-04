@@ -17,4 +17,4 @@ The idea is to make everything simple and readable. Take a concept and implement
 
 3. [**Simple neural network**](/Neural_network_v2.py). Simple neural net (multilayer perceptron). Optimized using Adam algorithm, regularized using dropout.
 
-4. 3. [**Convolutional neural network. NOT FINISHED, STILL WORKING ON IT**](/CNN.py).
+4. [**Convolutional neural network (not finished, still working on it)**](/CNN.py).
