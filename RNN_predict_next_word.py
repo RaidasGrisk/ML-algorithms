@@ -40,11 +40,12 @@ def get_dicts(text):
 
     words = ''.join(word for word in text).split()
     words_set = set(words)
-
     dictionary, reverse_dictionary = {}, {}
+    
     for word, id in zip(words_set, range(len(words_set))):
         dictionary[word] = id
         reverse_dictionary[id] = word
+        
     return dictionary, reverse_dictionary, words
 
 
