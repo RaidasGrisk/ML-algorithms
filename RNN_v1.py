@@ -17,6 +17,13 @@ def softmax(input):
 
 def forward_prop(x, y, w1, w2, rw1):
 
+    """
+    This function forward propagates input (x) using weights (w1, w2, rw1).
+    Returns hidden state values (a1_values), last layer values (a2_values)
+    as well as errors of the last layer (a2_deltas) 
+    and net's output values (a2_values[-1]).
+    """
+    
     _, time_steps, _ = np.shape(x)
     a1_values = [np.zeros((len(x), len(w1.T)))]
     a2_values = []
@@ -35,6 +42,10 @@ def forward_prop(x, y, w1, w2, rw1):
 def backward_prop(x, w1, w2, rw1, a1_values, a2_deltas):
 
     """
+    This function performs backward prop using inputs (x), weights (w1, w2, rw1),
+    hidden state values (a1_values) and last layer errors (a2_deltas).
+    Hidden state values and last layer errors are computed during forward prop.
+    
     Credits: https://github.com/km1414/Deep-stuff/blob/master/Neural%20networks/RNN_np.py
     I've modified parts of it.
     """
