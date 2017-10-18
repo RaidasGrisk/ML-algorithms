@@ -6,7 +6,7 @@ Few examples of algorithms I've tried while learning ML. Hopefully it's easy to 
 
 2. [**Deep Q Network.**](/DQN_Breakout.py) Second take at reinforcement learning. Basic DQN implementation using tensorflow and Breakout  from openAI's gym.
 
-2. [**Predicting next word with RNN.**](/RNN_predict_next_word.py) Tensorflow RNN trained on a short story to predict what word comes next.
+2. [**Predicting next word with RNN.**](/RNN_predict_next_word.py) Tensorflow RNN (LSTM) trained on a short story to predict what word comes next.
 
 
 # Things implemented simply
