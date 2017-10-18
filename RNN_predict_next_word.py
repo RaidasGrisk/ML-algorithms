@@ -79,7 +79,7 @@ def forward_prop(x, w, n_hidden):
     return logits, output
 
 
-def get_mini_batch(x, y):
+def get_mini_batch(x, y):  # single data point, in this case
     data_point = np.random.randint(len(x))
     x_batch = x[[data_point]]  # apparently, additional brackets helps to keep dim info
     y_batch = y[[data_point]]
@@ -137,8 +137,10 @@ while True:
 
 # let rnn generate a story
 for i in range(len(x_data)):
+    
     id = np.argmax(sess.run([y_], feed_dict={x: x_data[[i]]})[0], axis=1)
     word = reverse_dictionary[int(id)]
+    
     if i % 30 != 0:  # same line
         print(word, end=' ')
     else:  # new line
