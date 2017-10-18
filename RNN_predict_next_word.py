@@ -80,7 +80,7 @@ def forward_prop(x, w, n_hidden):
 
 def get_mini_batch(x, y):
     data_point = np.random.randint(len(x))
-    x_batch = x[[data_point]]  # additional brackets helps to keep dim info
+    x_batch = x[[data_point]]  # apparently, additional brackets helps to keep dim info
     y_batch = y[[data_point]]
     return x_batch, y_batch
 
