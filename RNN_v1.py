@@ -2,6 +2,12 @@ import numpy as np
 import pylab as pl
 from tensorflow.examples.tutorials.mnist import input_data # tf is used just for MNIST dataset
 
+"""
+Single hidden layer recurent neural network. Each image of MNIST data set is interpreted as
+sequence of X mini-frames (time_steps). e.g if image width is 28 pixels, it could be split into 
+4 subsequent mini-frames (time_steps) of 7 pixels in width. In such case the net would cycle 
+each mini-frame of single data point for 4 times before giving the final answer.
+"""
 
 def activation(input):
     return input * (input > 0) # if you change this one be sure to change activation_derivative as well
@@ -19,8 +25,10 @@ def forward_prop(x, y, w1, w2, rw1):
 
     """
     This function forward propagates input (x) using weights (w1, w2, rw1).
-    Returns hidden state values (a1_values), last layer values (a2_values)
-    as well as errors of the last layer (a2_deltas) 
+    Returns a tuple of: 
+    hidden state values (a1_values), 
+    last layer values (a2_values)
+    errors of the last layer (a2_deltas) 
     and net's output values (a2_values[-1]).
     """
     
@@ -45,6 +53,7 @@ def backward_prop(x, w1, w2, rw1, a1_values, a2_deltas):
     This function performs backward prop using inputs (x), weights (w1, w2, rw1),
     hidden state values (a1_values) and last layer errors (a2_deltas).
     Hidden state values and last layer errors are computed during forward prop.
+    Returns a tuple of all the weights (dw1, dw2, drw1).
     
     Credits: https://github.com/km1414/Deep-stuff/blob/master/Neural%20networks/RNN_np.py
     I've modified parts of it.
