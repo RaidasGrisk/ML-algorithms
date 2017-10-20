@@ -102,6 +102,14 @@ def get_mini_batch(x, y, batch_size):
 
 def generate_new_text(txt, print_length, new_line, dictionary, reverse_dictionary):
 
+    """
+    Generates text by predicting next character.
+    Function arguments:
+    txt - some text to start with. Must be time_steps in length.
+    print_length - the length of predicted text in characters
+    new_line - after that many characters it prints in a new line
+    """
+    
     # prepare text to feed it into net
     txt_sample = list(txt)  # do this if trying to predict next char
     # txt_sample = ''.join(word for word in txt).split()  # do this if trying to predict next word
