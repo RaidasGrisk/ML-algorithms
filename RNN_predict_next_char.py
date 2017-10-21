@@ -75,9 +75,12 @@ def get_data(chars, dictionary, time_steps):
 
 def forward_prop(x, w, n_hidden):
 
-    # rnn with tanh activation in hidden layers and softmax activation in the last layer
-    # tf.contrib.rnn.static_rnn create weights and biases automatically, so there is no need to initiate it manually
-    # to follow things up, you can check all the tf variables by tf.get_collection('variables')
+    """
+    RNN with tanh activation in hidden layers and softmax activation in the last layer.
+    Number of elements in n_hidden correspond to layers, each number corresponds to number of neurons in a layer.
+    tf.contrib.rnn.static_rnn create weights and biases automatically, so there is no need to initiate it manually
+    to follow things up, you can check all the tf variables by tf.get_collection('variables')
+    """
     
     # split the data to time_steps columns, to recure one column by another
     x_split = tf.split(x, time_steps, 1)
