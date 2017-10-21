@@ -146,7 +146,7 @@ def generate_new_text(txt, print_length, new_line, dictionary, reverse_dictionar
         txt_length += 1
 
 
-# parameters
+# hyper-parameters
 n_hidden = [74, 126]  # neurons in a layers, first item corresponds to first layer and so on
 batch_size = 250
 time_steps = 40  # size of sequence of words
