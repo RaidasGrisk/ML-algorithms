@@ -26,6 +26,8 @@ So, before returning the final output (i.e. the 11th character) the net will rep
 
 Of course, firstly, characters must be encoded into some kind of numerical representation.
 After feeding this data into rnn, tensorflow does all the work. The rest is self-explanatory (well, kind of).
+
+Helpful source: https://medium.com/towards-data-science/lstm-by-example-using-tensorflow-feb0c1968537
 """
 
 import numpy as np
@@ -73,19 +75,23 @@ def get_data(chars, dictionary, time_steps):
 
 def forward_prop(x, w, n_hidden):
 
-    # single hidden layer rnn with tanh activation in hidden layer and softmax activation in the last layer
+    # rnn with tanh activation in hidden layers and softmax activation in the last layer
     # tf.contrib.rnn.static_rnn create weights and biases automatically, so there is no need to initiate it manually
     # to follow things up, you can check all the tf variables by tf.get_collection('variables')
-
+    
+    # split the data to time_steps columns, to recure one column by another
     x_split = tf.split(x, time_steps, 1)
 
+    # stack lstm cells, a cell per hidden layer
     stacked_lstm_cells = []  # a list of lstm cells to be inputed into MultiRNNCell
     for layer_size in n_hidden:
         stacked_lstm_cells.append(tf.contrib.rnn.BasicLSTMCell(layer_size, activation=tf.nn.tanh))
 
+    # create the net and add dropout
     lstm_cell = tf.contrib.rnn.MultiRNNCell(stacked_lstm_cells)
     lstm_cell_with_dropout = tf.contrib.rnn.DropoutWrapper(lstm_cell, output_keep_prob=0.9)
 
+    # forwawrd propagate
     outputs, state = tf.contrib.rnn.static_rnn(lstm_cell_with_dropout, x_split, dtype=tf.float32)
     logits = tf.matmul(outputs[-1], w)  # logits are used for cross entropy
     output = tf.nn.softmax(logits)
