@@ -111,7 +111,7 @@ def convolve_forward_once(input, weights, stride, padding):
 
     """
     Implements a single convolution using get_im2col_indices and im2col_indices
-    Credits: https://github.com/shenxudeu/Convnet/blob/master/assignment3/cs231n/im2col.py#L14
+    Credits: https://github.com/shenxudeu/Convnet/blob/master/assignment3/cs231n/fast_layers.py
     Heavily modified.
     """
 
