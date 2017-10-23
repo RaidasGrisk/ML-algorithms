@@ -44,7 +44,7 @@ def download_data(url='https://ia601603.us.archive.org/3/items/CamusAlbertTheStr
                .replace('\\n', '')\
                .replace('\\\'', '')\
                .replace('\\xe2\\x99\\xa6', '')\
-               .replace('\\xe2\\x80\\x94', ' ')
+               .replace('\\xe2\\x80\\x94', '')
     return text
 
 
@@ -160,9 +160,9 @@ def generate_new_text(txt, print_length, new_line, dictionary, reverse_dictionar
 
 
 # hyper-parameters
-n_hidden = [74, 126]  # neurons in a layers, first item corresponds to first layer and so on
+n_hidden = [74, 126]  # neurons in a layers, each element corresponds to new hidden layer
 batch_size = 250
-time_steps = 40  # size of sequence of words
+time_steps = 40  # size of sequence of chars
 learning_rate = 1e-3
 
 # download and prepare data, initiate weights
