@@ -50,24 +50,37 @@ def download_data(url='https://ia601603.us.archive.org/3/items/CamusAlbertTheStr
 
 def get_dicts(text):
 
+    """
+    Returns a tuple of three objects:
+    dictionary is a dictionary that contains all unique characters in given text (keys) and their ids (values)
+    reverse_dictionary is a dictionary that contains character's ids (as keys) and characters (as values)
+    chars is text converted into a list, where each element is single character.
+    """
+    
     chars = list(text)  # splits strings into chars and puts it into a list
     # chars = ''.join(char for char in text).split()  # splits string into swords and stores it in a list
-    char_set = set(chars)
 
     dictionary, reverse_dictionary = {}, {}
-    for char, id in zip(char_set, range(len(char_set))):
+    for id, char in enumerate(set(chars)):
         dictionary[char] = id
         reverse_dictionary[id] = char
+    
     return dictionary, reverse_dictionary, chars
 
 
 def get_data(chars, dictionary, time_steps):
 
+    """
+    Returns data ready to be fed into neural net:
+    x_data contains all sequences of characters (not chars, but their ids!). Single row corresponds to single sequence.
+    y_data contains the id of next character in a sequence
+    """
+    
     x_data = np.zeros(shape=(len(chars) - time_steps, time_steps))
     y_data = np.zeros(shape=(len(chars) - time_steps, len(set(chars))))
 
     for data_point, sequence_end in zip(range(len(chars)), range(time_steps, len(chars))):
-        x_data[data_point] = [dictionary[word] for word in chars[data_point:sequence_end]]
+        x_data[data_point] = [dictionary[char] for char in chars[data_point:sequence_end]]
         y_data[data_point, dictionary[chars[sequence_end]]] = 1
 
     return x_data, y_data
@@ -174,7 +187,7 @@ sess = tf.Session()
 sess.run(init)
 
 # initiate new training session
-accuracy_hist = [0]
+accuracy_hist = []
 iter = 0
 
 # training loop
