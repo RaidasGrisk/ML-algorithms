@@ -21,3 +21,9 @@ The idea is to make everything simple and readable. Take a concept and implement
 4. [**Convolutional neural network (not finished, still working on it).**](/CNN.py)
 
 5. [**Recurrent neural network.**](/RNN_v1.py) Single hidden layer recurrent network used for MNIST clasification.
+
+# Gifs to look at
+
+| Generating text with LSTM | Playing Breakout |
+|---------------------------|------------------|
+|![](/gifs/LSTM-text-gen.gif)|
