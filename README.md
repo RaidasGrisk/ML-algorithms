@@ -24,6 +24,10 @@ The idea is to make everything simple and readable. Take a concept and implement
 
 # Gifs to look at
 
-| Generating text with LSTM | Playing Breakout |
-|---------------------------|------------------|
+| Generating text with LSTM |
+|---------------------------|
 |![](/gifs/LSTM-text-gen.gif)|
+
+| Playing Breakout: vanilla neural net and policy gradient |
+|------------------|
+| ![](/gifs/Breakout.gif) |
